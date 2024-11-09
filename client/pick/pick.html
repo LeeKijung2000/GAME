@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Champion Select</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 상단 타이틀 -->
+        <div class="header">
+            <h2>플래시 게임</h2>
+            <input type="text" placeholder="검색" class="search-bar">
+        </div>
+
+        <!-- 챔피언 선택 영역 -->
+        <div class="champion-select">
+            <div class="champion-grid">
+                <a href="/game/game.html" target="_blank">
+                    <img src="champion1.jpg" alt="챔피언 1" class="champion-img">
+                </a>
+                <a href="https://example.com/champion2" target="_blank">
+                    <img src="champion2.jpg" alt="챔피언 2" class="champion-img">
+                </a>
+                <a href="https://example.com/champion3" target="_blank">
+                    <img src="champion3.jpg" alt="챔피언 3" class="champion-img">
+                </a>
+                <!-- 더 많은 챔피언 이미지를 추가할 수 있습니다. -->
+            </div>
+        </div>
+
+        <!-- 하단 옵션 섹션 -->
+        <div class="options">
+            <div class="option-group">
+                <h3>룬 & 특성</h3>
+                <div class="option-check">AD <span>✔</span></div>
+                <div class="option-check">유틸 <span>✔</span></div>
+            </div>
+            <div class="option-group">
+                <h3>주문</h3>
+                <img src="spell1.jpg" alt="주문 1" class="spell-icon">
+                <img src="spell2.jpg" alt="주문 2" class="spell-icon">
+            </div>
+            <div class="option-group">
+                <h3>와드 스킨</h3>
+                <img src="ward.jpg" alt="와드 스킨" class="ward-icon">
+            </div>
+            <button class="confirm-button">준비 완료</button>
+        </div>
+    </div>
+</body>
+</html>

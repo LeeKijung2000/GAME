@@ -1,0 +1,119 @@
+/* 전체 배경 */
+body {
+  background-color: #1a1a1a;
+  color: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  width: 80%;
+  max-width: 900px;
+  background-color: #2b2b2b;
+  border-radius: 10px;
+  padding: 20px;
+  border: 2px solid #ff7f00;
+}
+
+/* 상단 타이틀 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.header h2 {
+  font-size: 24px;
+  color: #ff7f00;
+}
+
+.search-bar {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  width: 120px;
+}
+
+/* 챔피언 선택 영역 */
+.champion-select {
+  padding: 10px 0;
+}
+
+.champion-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.champion-img {
+  width: 100%;
+  border: 2px solid #000;
+  border-radius: 5px;
+  transition: transform 0.3s;
+}
+
+.champion-img:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+/* 하단 옵션 섹션 */
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 2px solid #333;
+}
+
+.option-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #ff7f00;
+}
+
+.option-group h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.option-check {
+  font-size: 14px;
+  color: white;
+  margin-top: 5px;
+}
+
+.option-check span {
+  color: #ff7f00;
+}
+
+.spell-icon,
+.ward-icon {
+  width: 40px;
+  height: 40px;
+  margin-top: 5px;
+  border-radius: 5px;
+}
+
+.confirm-button {
+  background-color: #ff7f00;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.confirm-button:hover {
+  background-color: #e06c00;
+}

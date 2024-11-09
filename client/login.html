@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게임 로그인 화면</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            font-family: Arial, sans-serif;
+            color: white;
+            background-color: #000;
+        }
+
+        /* 왼쪽 동영상 영역 스타일 */
+        .video-container {
+            width: 70%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            display: none; /* 기본적으로 비디오 숨기기 */
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 오른쪽 로그인 섹션 스타일 */
+        .login-container {
+            width: 30%;
+            background-color: #111;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .form-input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #222;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border: #fae20c solid 2px;
+        }
+
+        .login-button {
+            width: 80%;
+            padding: 10px;
+            background-color: #616a77;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* 볼륨 컨트롤 스타일 */
+        .volume-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .volume-controls button {
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .volume-slider {
+            width: 100px;
+        }
+
+        .toggle-video-button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #616a77;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- 왼쪽 동영상 영역 -->
+    <div class="video-container" id="video-container">
+        <video id="background-video" loop muted>
+            <source src="../assets/lck.mp4" type="video/mp4">
+            <!-- 동영상 파일을 로컬에 두고 path를 수정해주세요 -->
+        </video>
+        <div class="volume-controls">
+            <button onclick="toggleMute()">🔇</button>
+            <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.01" value="0" oninput="setVolume(this.value)">
+        </div>
+    </div>
+
+    <!-- 오른쪽 로그인 영역 -->
+    <div class="login-container">
+        <form id="loginForm">
+            <img src="../assets/logo.png" alt="Game Logo" class="logo" width="250">
+            <input type="text" placeholder="아이디" class="form-input" id="id" required name="id">
+            <input type="text" placeholder="비밀번호" class="form-input" id="name" required name="name">
+            <button type="submit" class="login-button" onclick="login(event)">로그인</button>
+        </form>
+        <div id="status"></div>
+        <button class="toggle-video-button" onclick="toggleVideo()">영상 켜기/끄기</button>
+    </div>
+
+    <script>
+        function login(event) {
+            event.preventDefault();  // 폼의 기본 제출 동작을 막습니다.
+
+            const id = document.getElementById('id').value;
+            const name = document.getElementById('name').value;
+
+            // 로그인 정보 확인
+            console.log('아이디:', id);
+            console.log('이름:', name);
+
+            fetch(`https://script.google.com/macros/s/AKfycbxuJ5Nvyz5WJUhDd7mSd_-ut4QMlQZIwmxzhkzsCu6tzyJc8_7f_pPeV8n4pNP9XyY7-A/exec?id=${id}&name=${name}`, {
+                method: 'GET',  // GET 요청
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("로그인 성공!");
+                    window.location.href = "./pick/pick.html";
+                    
+                } else {
+                    alert("아이디 또는 이름이 틀렸습니다.");
+                }
+            })
+            .catch(error => {
+                console.error('로그인 처리 중 오류 발생:', error);
+            });
+        }
+
+        const video = document.getElementById('background-video');
+        const volumeSlider = document.getElementById('volume-slider');
+        const videoContainer = document.getElementById('video-container');
+
+        // 음소거 토글
+        function toggleMute() {
+            video.muted = !video.muted;
+            volumeSlider.value = video.muted ? 0 : video.volume;
+        }
+
+        // 볼륨 설정
+        function setVolume(value) {
+            video.muted = false;
+            video.volume = value;
+        }
+
+        // 비디오를 켜거나 끄는 함수
+        function toggleVideo() {
+            if (videoContainer.style.display === "none") {
+                videoContainer.style.display = "block";  // 비디오 보이기
+                video.play();  // 비디오 재생 시작
+            } else {
+                videoContainer.style.display = "none";  // 비디오 숨기기
+                video.pause();  // 비디오 정지
+            }
+        }
+
+        // 페이지 로드 시 초기 볼륨값 설정
+        window.onload = () => {
+            video.volume = 0.0;  // 초기 볼륨 설정
+            volumeSlider.value = video.volume;
+
+            // 첫 페이지 로드 시에 영상은 숨겨두기
+            videoContainer.style.display = "none";
+        };
+    </script>
+</body>
+</html>
