@@ -1,101 +1,76 @@
-* {
-  box-sizing: border-box;
-}
-
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
+  background-color: #282c34;
+  color: #ffffff;
+  margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  margin: 0;
-  background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20230512/pngtree-this-photograph-shows-a-baseball-stadium-at-night-image_2508074.jpg'); /* 이미지 경로를 배경 이미지 파일로 변경하세요 */
-  background-size: cover;
-  background-position: center;
-}
-
-body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: inherit; /* 배경 이미지를 복사하여 흐릿하게 보이게 합니다 */
-  background-size: cover;
-  background-position: center;
-  filter: blur(8px); /* 흐림 효과를 추가 */
-  z-index: -1;
-  opacity: 0.7; /* 투명도 조절 */
 }
 
 .container {
   text-align: center;
-  z-index: 1; /* 컨테이너는 배경 위에 위치 */
-  width: 800px;
-  height: 600px;
-  padding: 30px;
-  background-color: white;
-  border-radius: 10px;
-  border: #333 solid 8px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 h1 {
-  color: #333;
-  font-size: 2em;
-  margin-bottom: 10px;
-}
-
-p {
-  font-size: 1.1em;
-  color: #555;
   margin: 10px 0;
+  font-size: 36px;
+  color: #ffcc00;
+  text-shadow: 2px 2px 2px #333;
 }
 
-.input-group {
+.instructions {
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #cccccc;
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(4, 100px);
+  grid-gap: 15px;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: #333;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.card {
+  width: 100px;
+  height: 100px;
+  background-color: #555;
   display: flex;
   justify-content: center;
-  margin-top: 15px;
-}
-
-.input-group input {
-  width: 60px;
-  height: 60px;
-  font-size: 1.5em;
-  text-align: center;
-  margin: 0 5px;
-  border: 2px solid #ccc;
+  align-items: center;
+  font-size: 36px;
+  font-weight: bold;
+  color: transparent;
   border-radius: 8px;
-}
-
-button {
-  height: 60px;
-  font-size: 1.2em;
-  padding: 0 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 8px;
+  transition: all 0.3s ease;
   cursor: pointer;
-  margin-left: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-button:hover {
-  background-color: #0056b3;
+.card:hover {
+  transform: scale(1.05);
+  background-color: #666;
 }
 
-#result, #attempts {
-  margin-top: 20px;
-  font-size: 1.3em;
+.card.flipped {
+  background-color: #ffcc00;
   color: #333;
+  cursor: default;
+  transform: scale(1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 }
 
-h2 {
-  color: #007bff;
-  margin-top: 20px;
-}
-
-h2, p {
-  text-align: left;
+.card.matched {
+  background-color: #4caf50;
+  color: #ffffff;
+  transform: scale(1.05);
 }

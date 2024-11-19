@@ -1,60 +1,71 @@
-let computerNumber = generateNumber();
-let attempts = 0;
+const board = document.querySelector('.game-board');
 
-function generateNumber() {
-    const digits = [];
-    while (digits.length < 3) {
-        const randomDigit = Math.floor(Math.random() * 10);
-        if (!digits.includes(randomDigit)) {
-            digits.push(randomDigit);
-        }
-    }
-    return digits.join("");
+// 카드 데이터 생성
+const cardValues = Array.from({ length: 8 }, (_, i) => i + 1).flatMap(x => [x, x]);
+let shuffledValues = [];
+
+// 게임 초기화
+function initGame() {
+    shuffledValues = cardValues.sort(() => Math.random() - 0.5);
+    board.innerHTML = '';
+    shuffledValues.forEach(value => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.dataset.value = value;
+        card.textContent = value; // 미리 값 표시 (디버깅용)
+        setTimeout(() => (card.textContent = '?'), 1000); // 1초 후 숨김
+        card.addEventListener('click', handleCardClick);
+        board.appendChild(card);
+    });
 }
 
-function playGame() {
-    const input1 = document.getElementById("input1").value;
-    const input2 = document.getElementById("input2").value;
-    const input3 = document.getElementById("input3").value;
+// 카드 클릭 처리
+let firstCard = null;
+let lockBoard = false;
 
-    // 사용자 입력 검사
-    if ([input1, input2, input3].some(num => num === "" || isNaN(num))) {
-        alert("각 자리의 숫자를 입력해 주세요.");
+function handleCardClick(event) {
+    const clickedCard = event.target;
+
+    if (lockBoard || clickedCard === firstCard || clickedCard.classList.contains('flipped')) {
         return;
     }
 
-    const userInput = input1 + input2 + input3;
-    attempts++;
-    const result = checkGuess(userInput);
-    document.getElementById("result").innerText = result;
-    document.getElementById("attempts").innerText = `시도 횟수: ${attempts}`;
+    clickedCard.classList.add('flipped');
+    clickedCard.textContent = clickedCard.dataset.value;
 
-    if (result === "3스트라이크! 정답입니다!") {
-        alert(`축하합니다! ${attempts}번 만에 맞추셨습니다!`);
-        resetGame();
+    if (!firstCard) {
+        firstCard = clickedCard;
+        return;
+    }
+
+    const secondCard = clickedCard;
+    if (firstCard.dataset.value === secondCard.dataset.value) {
+        firstCard.classList.add('matched');
+        secondCard.classList.add('matched');
+        firstCard = null; // 짝 맞음
+        checkWinCondition();
+    } else {
+        lockBoard = true;
+        setTimeout(() => {
+            firstCard.classList.remove('flipped');
+            secondCard.classList.remove('flipped');
+            firstCard.textContent = '?';
+            secondCard.textContent = '?';
+            firstCard = null;
+            lockBoard = false;
+        }, 1000);
     }
 }
 
-function checkGuess(userInput) {
-    let strikes = 0;
-    let balls = 0;
-    for (let i = 0; i < 3; i++) {
-        if (userInput[i] === computerNumber[i]) {
-            strikes++;
-        } else if (computerNumber.includes(userInput[i])) {
-            balls++;
-        }
+// 게임 승리 조건 확인
+function checkWinCondition() {
+    if (document.querySelectorAll('.card:not(.flipped)').length === 0) {
+        setTimeout(() => {
+            alert('다 맞췄습니다! 게임이 초기화됩니다.');
+            initGame(); // 게임 초기화
+        }, 300);
     }
-    if (strikes === 3) return "3스트라이크! 정답입니다!";
-    return `${strikes}스트라이크 ${balls}볼`;
 }
 
-function resetGame() {
-    computerNumber = generateNumber();
-    attempts = 0;
-    document.getElementById("input1").value = "";
-    document.getElementById("input2").value = "";
-    document.getElementById("input3").value = "";
-    document.getElementById("result").innerText = "";
-    document.getElementById("attempts").innerText = "";
-}
+// 게임 시작
+initGame();
