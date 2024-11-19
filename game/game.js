@@ -31,7 +31,8 @@ function playGame() {
 
     if (result === "3스트라이크! 정답입니다!") {
         alert(`축하합니다! ${attempts}번 만에 맞추셨습니다!`);
-        resetGame();
+        window.location.href = "https://leekijung2000.github.io/game/client/pick/pick.html";
+        // resetGame();
     }
 }
 
